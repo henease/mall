@@ -2,7 +2,7 @@ package com.netease.web.controller;
 
 import java.util.Iterator;
 import java.util.List;
-
+import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -28,7 +28,9 @@ public class Account {
 		Iterator<Product> it = productList.iterator();
 		while(it.hasNext()){
 			Product product = it.next();
-			product.setBuyPrice((double)(product.getBuyPrice())/100);
+			//product.setBuyPrice((double)(product.getBuyPrice())/100);
+			product.setBuyPrice(new BigDecimal(Double.toString(product.getBuyPrice()))
+					.divide(new BigDecimal(Integer.toString(100))).doubleValue());
 		}
 		model.addAttribute(productList);
 		return "account";

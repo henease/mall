@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,9 @@ public class Edit {
 		Product product = myService.getProduct(id);
 		String detail = new String(product.getDetail().getBytes("iso-8859-1"),"UTF-8");
 		product.setDetail(detail);
-		product.setPrice((double)(product.getPrice())/100);
+		//product.setPrice((double)(product.getPrice())/100);
+		product.setPrice(new BigDecimal(Double.toString(product.getPrice()))
+				.divide(new BigDecimal(Integer.toString(100))).doubleValue());
 		model.addAttribute(product);
 		return "edit";
 	}

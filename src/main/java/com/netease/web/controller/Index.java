@@ -2,7 +2,7 @@ package com.netease.web.controller;
 
 import java.util.Iterator;
 import java.util.List;
-
+import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -28,7 +28,9 @@ public class Index {
 		Iterator<Product> it = productList.iterator();
 		while(it.hasNext()){
 			Product product = it.next();
-			product.setPrice((double)(product.getPrice())/100);
+			//product.setPrice((double)(product.getPrice())/100);
+			product.setPrice(new BigDecimal(Double.toString(product.getPrice()))
+			.divide(new BigDecimal(Integer.toString(100))).doubleValue());
 			if(product.getBuyTime() != null){
 				product.setIsBuy("true");
 				product.setIsSell("true");

@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,9 @@ public class EditSubmit {
 	@RequestMapping(path="/editSubmit",method=RequestMethod.POST)
 	public String editSubmit(HttpServletRequest req,HttpSession session,Model model,@RequestParam("id")int id) throws UnsupportedEncodingException{
 		CheckSession.checkUser(session, model, req);
-		long price = (long)(Double.parseDouble(req.getParameter("price"))*100);
+		//long price = (long)(Double.parseDouble(req.getParameter("price"))*100);
+		long price = new BigDecimal(req.getParameter("price"))
+				.multiply(new BigDecimal(Integer.toString(100))).longValue();
 		String title = req.getParameter("title");
 		String summary = req.getParameter("summary");
 		String image = req.getParameter("image");

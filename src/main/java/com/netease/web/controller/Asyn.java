@@ -17,12 +17,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.netease.web.meta.User;
 import com.netease.web.serviceimpl.MyServiceImpl;
 
+//异步数据处理的Controller
 @Controller
 @RequestMapping(path="/api")
 public class Asyn {
+	//注入MyServiceImpl
 	@Autowired
 	private MyServiceImpl myService;
 	
+	/* 登录时的异步处理
+	 * 检查用户名是否是buyer或者seller其中之一，如果是就设置对应的userType
+	 * 通过select数据时影响的数据条数来判断是否存在用户
+	 */
 	@ResponseBody
 	@RequestMapping(path="/login",method=RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest req,User user,ModelAndView model,HttpSession session){
@@ -52,6 +58,9 @@ public class Asyn {
 		return model;
 	}
 	
+	/* 删除时的异步处理
+	 * 利用delete返回影响的数据条数来判断是否已经删除对应数据
+	 */
 	@RequestMapping(path="/delete",method=RequestMethod.POST)
 	public ModelAndView delete(@RequestParam("id")int id,ModelAndView model){
 		int a = myService.delete(id);
@@ -68,6 +77,10 @@ public class Asyn {
 		return model;
 	}
 	
+	/* 购买商品时的异步处理
+	 * 根据请求时的商品id传入对应的contentId和price
+	 * 获得购买商品时的long型购买时间
+	 */
 	@RequestMapping(path="/buy",method=RequestMethod.POST)
 	public ModelAndView buy(@RequestParam("id")int id,ModelAndView model){
 		int contentId = id;
